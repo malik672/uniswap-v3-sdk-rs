@@ -3,7 +3,7 @@ use alloy_primitives::{Address, B256, I256, U256};
 use anyhow::Result;
 use num_bigint::BigUint;
 use once_cell::sync::Lazy;
-use std::{ops::Neg, sync::Arc};
+use std::{fmt, ops::Neg, sync::Arc};
 use uniswap_sdk_core::prelude::*;
 
 static _Q192: Lazy<BigUint> = Lazy::new(|| u256_to_big_uint(Q192));
@@ -369,6 +369,32 @@ impl Pool {
             state.liquidity,
             state.tick,
         ))
+    }
+}
+
+//Implement debug for Pool
+impl fmt::Debug for Pool {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("Pool")
+            .field("token0", &self.token0)
+            .field("token1", &self.token1)
+            .field("fee", &self.fee)
+            .field("sqrt_ratio_x96", &self.sqrt_ratio_x96)
+            .field("liquidity", &self.liquidity)
+            .field("tick_current", &self.tick_current)
+            .finish()
+    }
+}
+
+//Implement partialEq for Pool
+impl PartialEq for Pool {
+    fn eq(&self, other: &Self) -> bool {
+        self.token0 == other.token0
+            && self.token1 == other.token1
+            && self.fee == other.fee
+            && self.sqrt_ratio_x96 == other.sqrt_ratio_x96
+            && self.liquidity == other.liquidity
+            && self.tick_current == other.tick_current
     }
 }
 

@@ -5,6 +5,7 @@
 
 pub mod constants;
 pub mod entities;
+pub mod error;
 pub mod utils;
 
 #[cfg(feature = "extensions")]
